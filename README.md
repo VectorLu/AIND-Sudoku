@@ -3,17 +3,21 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: *Student should provide answer here*
+A: Find all instances of naked twins, eliminate the digits from their peers. If the possibilities are reducible, repeat finding and eliminating util the possibilities is not reducible.
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
-A: *Student should provide answer here*
+A:
+    1. Design the data structure by the diagonal sudoku rubric.
+    2. Eliminate possibilities by the determined value.
+    3. Use only_choice to determine the value to fill in the box.
+    4. If the possibilities are reducible, repeat step2 and step3 util the possibilities is not reducible.
 
 ### Install
 
 This project requires **Python 3**.
 
-We recommend students install [Anaconda](https://www.continuum.io/downloads), a pre-packaged Python distribution that contains all of the necessary libraries and software for this project. 
+We recommend students install [Anaconda](https://www.continuum.io/downloads), a pre-packaged Python distribution that contains all of the necessary libraries and software for this project.
 Please try using the environment we provided in the Anaconda lesson of the Nanodegree.
 
 ##### Optional: Pygame
