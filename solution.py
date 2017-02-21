@@ -65,9 +65,12 @@ def find_eliminate_twins(values):
     for t in two_digits_boxes:
         for unit in units[t]:
             twin = [box for box in unit if values[box] == values[t]]
+            twin.remove(t)
             if len(twin) == 1:
-                digit_1 = (values[twin[0]])[0]
-                digit_2 = (values[twin[0]])[1]
+                twin_digit = values[twin[0]]
+                print
+                digit_1 = twin_digit[0]
+                digit_2 = twin_digit[1]
                 for box in unit:
                     if box == t or box == twin[0]:
                         continue
@@ -77,6 +80,8 @@ def find_eliminate_twins(values):
                     if digit_2 in values[box]:
                         eliminated_twins = values[box].replace(digit_2, '')
                         assign_value(values, box, eliminated_twins)
+            else:
+                continue
 
     return values
 
