@@ -19,12 +19,12 @@ def naked_twins(values):
         the values dictionary with the naked twins eliminated from peers.
     """
 
-    # Find all instances of naked twins
-    # Eliminate the naked twins as possibilities for their peers
+    # TODO: Find all instances of naked twins
+    # TODO: Eliminate the naked twins as possibilities for their peers
 
 def cross(A, B):
     "Cross product of elements in A and elements in B."
-    pass
+    return [a+b for a in A for b in B]
 
 def grid_values(grid):
     """
@@ -36,7 +36,17 @@ def grid_values(grid):
             Keys: The boxes, e.g., 'A1'
             Values: The value in each box, e.g., '8'. If the box has no value, then the value will be '123456789'.
     """
-    pass
+    all_digits = '123456789'
+    rows = 'ABCDEFGHI'
+    cols = all_digits
+    boxes = cross(rows, cols)
+    values = []
+    for digit in grid:
+        if digit == '.':
+            values.append(all_digits)
+        elif digit in all_digits:
+            values.append(digit)
+    return dict(zip(boxes, values))
 
 def display(values):
     """
