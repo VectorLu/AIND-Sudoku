@@ -102,7 +102,8 @@ def eliminate(values):
     for box in definite_box:
         digit = values[box]
         for peer in peers[box]:
-            values[peer] = values[peer].replace(digit, '')
+            new_digits = values[peer].replace(digit, '')
+            assign_value(values, peer, new_digits)
 
     return values
 
@@ -126,7 +127,8 @@ def only_choice(values):
             # If only one box in a unit contains the digit,
             # then this box is the only choice.
             if len(occur_boxes) == 1:
-                values[occur_boxes[0]] = digit
+                # values[occur_boxes[0]] = digit
+                assign_value(values, occur_boxes[0], digit)
 
     return values
 
@@ -158,7 +160,7 @@ def reduce_puzzle(values):
 
     return values
 
-
+# TODO: assign_value()
 def search(values):
     """
     Using depth-first search and propagation, create a search tree and solve the sudoku.
@@ -178,11 +180,12 @@ def search(values):
 
     # Use recursion to solve each one of the Resulting sudokus,
     # and if one returns a value (not False), return that answer!
-    for value in values[s]:
+    for digit in values[s]:
         # Copy the sudoku to protect the original sudoku
         # in case that there is no solution.
         new_sudoku = values.copy()
-        new_sudoku[s] = value
+        # new_sudoku[s] = digit
+        assign_value(new_sudoku, s, digit)
         attempt = search(new_sudoku)
         if attempt:
             return attempt
@@ -196,7 +199,12 @@ def solve(grid):
     Returns:
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
-    
+    initial_sudoku = grid_values(grid)
+    final_sudoku = search(initial_sudoku)
+
+    return final_sudoku
+
+
 
 if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
