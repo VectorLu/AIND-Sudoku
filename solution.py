@@ -61,14 +61,13 @@ def naked_twins(values):
                 for box in unit:
                     if box == t or box == twin[0]:
                         continue
-                    elif digit_1 in values[box]:
+                    if digit_1 in values[box]:
                         eliminated_twins = values[box].replace(digit_1, '')
                         assign_value(values, box, eliminated_twins)
-                    elif digit_2 in values[box]:
+                    if digit_2 in values[box]:
                         eliminated_twins = values[box].replace(digit_2, '')
                         assign_value(values, box, eliminated_twins)
-                    else:
-                        continue
+
 
     return values
 
