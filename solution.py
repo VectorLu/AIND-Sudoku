@@ -1,3 +1,5 @@
+# coding: utf-8
+# Learn from Udacity.
 all_digits = '123456789'
 rows = 'ABCDEFGHI'
 cols = all_digits
@@ -21,7 +23,14 @@ column_units = [cross(rows, c) for c in cols]
 # This is the top left square.
 square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI') for cs in ('123', '456', '789')]
 
-unit_list = row_units + column_units + square_units
+# A list of two main diagonals.
+diagonal_units = [
+    ['A1', 'B2', 'C3', 'D4', 'E5', 'F6', 'G7', 'H8', 'I9'],
+    ['I1', 'H2', 'G3', 'F4', 'E5', 'D6', 'C7', 'B8', 'A9']
+]
+
+# unit_list = row_units + column_units + square_units
+unit_list = row_units + column_units + square_units + diagonal_units
 units = dict((s, [u for u in unit_list if s in u]) for s in boxes)
 peers = dict((s, set(sum(units[s], [])) - set([s])) for s in boxes)
 
@@ -38,19 +47,15 @@ def assign_value(values, box, value):
         assignments.append(values.copy())
     return values
 
-def naked_twins(values):
-    """Eliminate values using the naked twins strategy.
+def find_eliminate_twins(values):
+    """
+    Find and eliminate values using the naked twins strategy.
     Args:
         values(dict): a dictionary of the form {'box_name': '123456789', ...}
 
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-
-    # Find all instances of naked twins
-    # Eliminate the naked twins as possibilities for their peers
-    # XXX: What if after eliminating, new naked twins come up?
-    # TODO: Make the method conciser
     two_digits_boxes = [box for box in boxes if len(values[box]) == 2]
     for t in two_digits_boxes:
         for unit in units[t]:
@@ -68,6 +73,30 @@ def naked_twins(values):
                         eliminated_twins = values[box].replace(digit_2, '')
                         assign_value(values, box, eliminated_twins)
 
+    return values
+
+def naked_twins(values):
+    """
+    Eliminate as many as possible values using the naked twins strategy.
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        the values dictionary with the naked twins eliminated from peers.
+    """
+    # TODO: Constraint propagation
+    reducible = True
+    while reducible:
+        sum_of_possibilies = 0
+        for box in boxes:
+            sum_of_possibilies_before += len(values[box])
+        find_eliminate_twins(values)
+        for box in boxes:
+            sum_of_possibilies_after += len(values[box])
+        reducible = (sum_of_possibilies_after < sum_of_possibilies_before)
+        # Sanity check, return False if there is a box with zero available value:
+        if len([box for box in boxes if len(values[box]) == 0]):
+            return False
 
     return values
 
