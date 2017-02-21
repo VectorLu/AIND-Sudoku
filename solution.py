@@ -101,12 +101,34 @@ def eliminate(values):
     definite_box = [box for box in values.keys() if len(values[box]) == 1]
     for box in definite_box:
         digit = values[box]
-        for peer in
+        for peer in peers[box]:
+            values[peer] = values[peer].replace(digit, '')
+
+    return values
 
 
 
 def only_choice(values):
-    pass
+    """
+    Finalize all values that are the only choice for a unit.
+
+    Go through all the units, and whenever there is a unit with a value that only fits in one box, assign the value to this box.
+
+    Args:
+        values: Sudoku in dictionary form.
+    Returns:
+        Resulting Sudoku in dictionary form after filling in only choices.
+    """
+    for unit in unit_list:
+        for digit in all_digits:
+            # If a box contains the digit, add the box to occur_boxes.
+            occur_boxes = [box for box in unit if digit in values[box]]
+            # If only one box in a unit contains the digit,
+            # then this box is the only choice.
+            if len(occur_boxes) == 1:
+                values[occur_boxes[0]] = digit
+
+    return values
 
 def reduce_puzzle(values):
     pass
