@@ -156,11 +156,36 @@ def reduce_puzzle(values):
         if len([box for box in boxes if len(values[box]) == 0]):
             return False
 
-    return values        
+    return values
 
 
 def search(values):
-    pass
+    """
+    Using depth-first search and propagation, create a search tree and solve the sudoku.
+    Args:
+        A sudoku in dictionary form.
+    Returns:
+        The resulting sudoku in dictionary form.
+    """
+    values = reduce_puzzle(values)
+    if values is False:
+        return False ## Failed earlier
+    if all(len(values[s]) == 1 for s in boxes):
+        return values ## Solved!
+
+    # Choose one of unfilled boxes with the fewest possibilities
+    n, s = min((len(values[s], s)) for s in boxes if len(values[s]) > 1)
+
+    # Use recursion to solve each one of the Resulting sudokus,
+    # and if one returns a value (not False), return that answer!
+    for value in values[s]:
+        # Copy the sudoku to protect the original sudoku
+        # in case that there is no solution.
+        new_sudoku = values.copy()
+        new_sudoku[s] = value
+        attempt = search(new_sudoku)
+        if attempt:
+            return attempt
 
 def solve(grid):
     """
@@ -171,6 +196,7 @@ def solve(grid):
     Returns:
         The dictionary representation of the final sudoku grid. False if no solution exists.
     """
+    
 
 if __name__ == '__main__':
     diag_sudoku_grid = '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
