@@ -50,6 +50,7 @@ def naked_twins(values):
     # Find all instances of naked twins
     # Eliminate the naked twins as possibilities for their peers
     # XXX: What if after eliminating, new naked twins come up?
+    # TODO: Make the method conciser
     two_digits_boxes = [box for box in boxes if len(values[box]) == 2]
     for t in two_digits_boxes:
         for unit in units[t]:
