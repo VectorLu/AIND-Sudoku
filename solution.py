@@ -3,6 +3,11 @@
 all_digits = '123456789'
 rows = 'ABCDEFGHI'
 cols = all_digits
+
+def cross(A, B):
+    "Cross product of elements in A and elements in B."
+    return [a+b for a in A for b in B]
+
 boxes = cross(rows, cols)
 
 # A list of units in the same row
@@ -87,7 +92,8 @@ def naked_twins(values):
     # TODO: Constraint propagation
     reducible = True
     while reducible:
-        sum_of_possibilies = 0
+        sum_of_possibilies_before = 0
+        sum_of_possibilies_after = 0
         for box in boxes:
             sum_of_possibilies_before += len(values[box])
         find_eliminate_twins(values)
@@ -100,9 +106,7 @@ def naked_twins(values):
 
     return values
 
-def cross(A, B):
-    "Cross product of elements in A and elements in B."
-    return [a+b for a in A for b in B]
+
 
 def grid_values(grid):
     """
