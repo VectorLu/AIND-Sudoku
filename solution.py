@@ -1,3 +1,31 @@
+all_digits = '123456789'
+rows = 'ABCDEFGHI'
+cols = all_digits
+boxes = cross(rows, cols)
+
+# A list of units in the same row
+# Element example:
+# row_units[0] = ['A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A8', 'A9']
+# It is the top most row.
+row_units = [cross(r, cols) for r in rows]
+
+# A list of units in the same column
+# Element example:
+# column_units[0] = ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1', 'H1', 'I1']
+# This is the left most column.
+column_units = [cross(rows, c) for c in cols]
+
+# A list of units in the same 3x3 square
+# Element example:
+# square_units[0] = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
+# This is the top left square.
+square_units = [cross(rs, cs) for rs in ('ABC', 'DEF', 'GHI') for cs in ('123', '456', '789')]
+
+unit_list = row_units + column_units + square_units
+units = dict((s, [u for u in unit_list if s in u]) for s in boxes)
+peers = dict((s, set(sum(units[s], [])) - set([s])) for s in boxes)
+
+
 assignments = []
 
 def assign_value(values, box, value):
@@ -36,17 +64,13 @@ def grid_values(grid):
             Keys: The boxes, e.g., 'A1'
             Values: The value in each box, e.g., '8'. If the box has no value, then the value will be '123456789'.
     """
-    all_digits = '123456789'
-    rows = 'ABCDEFGHI'
-    cols = all_digits
-    boxes = cross(rows, cols)
-    values = []
+    digits = []
     for digit in grid:
         if digit == '.':
-            values.append(all_digits)
+            digits.append(all_digits)
         elif digit in all_digits:
-            values.append(digit)
-    return dict(zip(boxes, values))
+            digits.append(digit)
+    return dict(zip(boxes, digits))
 
 def display(values):
     """
@@ -54,10 +78,32 @@ def display(values):
     Args:
         values(dict): The sudoku in dictionary form
     """
-    pass
+    width = 1 + max(len(values[box]) for box in boxes)
+    seperate_line = '+'.join(['-'*(width*3)]*3)
+    for r in rows:
+        print(''.join(values[r+c].center(width)+('|' if c in '36' else '')
+                      for c in cols))
+        if r in 'CF': print(seperate_line)
+    return
 
 def eliminate(values):
-    pass
+    """
+    Eliminate values from peers of each box with a single value.
+
+    Go through all the boxes, and whenever there is a box with a single value, eliminate this value from the set of values of all its peers.
+
+    Args:
+        values: Sudoku in dictionary form.
+    Returns:
+        Resulting Sudoku in dictionary form after eliminating values.
+    """
+    # If a box has only one digit, then the digit is definite.
+    definite_box = [box for box in values.keys() if len(values[box]) == 1]
+    for box in definite_box:
+        digit = values[box]
+        for peer in
+
+
 
 def only_choice(values):
     pass
