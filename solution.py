@@ -131,7 +131,33 @@ def only_choice(values):
     return values
 
 def reduce_puzzle(values):
-    pass
+    """
+    Iterate eliminate() and only_choice(). If at some point, there is a box with no available values, return False.
+    If the sudoku is solved, return the sudoku.
+    If after an iteration of both function, the sudoku remains the same, return the sudoku.
+
+    Args:
+        A sudoku in dictionary form.
+    Returns:
+        The resulting sudoku in dictionary form.
+    """
+    reducible = True
+    while reducible:
+        # Check how many boxes have a determined value
+        num_of_solved_values_before = len([box for box in boxes if len(values[box]) == 1])
+        # Use the Eliminate Strategy and the Only Choice Strategy
+        eliminated_sudoku = eliminate(values)
+        after_only_choice_sudoku = only_choice(eliminated_sudoku)
+        # Check how many boxes have a determined value, to compare
+        num_of_solved_values_after = len([box for box in boxes if len(values[box]) == 1])
+        # If new values were added, continue the loop.
+        reducible = (num_of_solved_values_before != num_of_solved_values_after)
+        # Sanity check, return False if there is a box with zero available values:
+        if len([box for box in boxes if len(values[box]) == 0]):
+            return False
+
+    return values        
+
 
 def search(values):
     pass
