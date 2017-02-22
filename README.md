@@ -3,7 +3,11 @@
 
 # Question 1 (Naked Twins)
 Q: How do we use constraint propagation to solve the naked twins problem?  
-A: Find all instances of naked twins, eliminate the digits from their peers. If the possibilities are reducible, repeat finding and eliminating util the possibilities is not reducible.
+A:
+    1. Find all boxes that have two possible digits, add them to a list -- two_digits_boxes.
+    2. Compare the boxes in two_digits_boxes with the box in the same unit. If those two box have two digits and the two digits are the same, the peer box is the naked twin of it. Then eliminate these two digits from their peer boxes' values.
+    3. Repeat step2 until the possibilities is not reducible.
+
 
 # Question 2 (Diagonal Sudoku)
 Q: How do we use constraint propagation to solve the diagonal sudoku problem?  
