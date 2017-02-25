@@ -94,7 +94,7 @@ def naked_twins(values):
     Returns:
         the values dictionary with the naked twins eliminated from peers.
     """
-    # TODO: Constraint propagation
+    # Constraint propagation
     reducible = True
     while reducible:
         sum_of_possibilies_before = 0
@@ -219,7 +219,6 @@ def reduce_puzzle(values):
 
     return values
 
-# TODO: assign_value()
 def search(values):
     """
     Using depth-first search and propagation, create a search tree and solve the sudoku.
